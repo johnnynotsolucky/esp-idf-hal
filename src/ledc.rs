@@ -270,7 +270,12 @@ impl<'d, C: LedcChannel, B: Borrow<LedcTimerDriver<'d, T>>, T: LedcTimer> LedcDr
     }
 }
 
-impl<'d, C: LedcChannel, T: LedcTimer> Drop for LedcDriver<'d, C, T> {
+impl<'d, C, B, T> Drop for LedcDriver<'d, C, B, T> 
+where
+    C: LedcChannel,
+    B: Borrow<LedcTimerDriver<'d, T>>,
+    T: LedcTimer,
+{
     fn drop(&mut self) {
         self.stop().unwrap();
     }
